@@ -1,37 +1,47 @@
-// import { combineReducers } from 'redux';
-// import todosReducer from './todosReduce';
-
-// const rootReducer = combineReducers({
-//   todos: todosReducer
-// })
-
-// export default rootReducer;
-
 import { Action } from 'redux';
-import TODO from 'src/actions';
+import ActionTypes from 'src/actions';
 
+interface IAction extends Action {
+  payload: any
+};
 
 const initState = {
   todos: [
     {
-      id: 1,
-      text: 'Cool 1'
+      id: 0,
+      text: 'Cool 1',
+      done: false,
     },
     {
-      id: 2,
-      text: 'Cool 2'
+      id: 1,
+      text: 'Cool 2',
+      done: false,
     }
   ]
-}
+};
 
+let nextId = 0;
 
-const todosReducer = (state = initState, action: Action) => {
+const todosReducer = (state = initState, action: IAction) => {
   switch(action.type) {
-    case TODO.ADD_TODO: 
-      return state
+    case ActionTypes.ADD_TODO:
+      return {
+        ...state,
+        todos: [...state.todos, {
+          id: nextId++, // TODO: create id generator
+          text: action.payload
+        }]
+      }
+    case ActionTypes.DONE_TODO:
+      const id = action.payload
+      return {
+        ...state, 
+        todos: 
+          state.todos.map(i => i.id === id ? { ...i, done: !i.done } : i)
+      }
     default: 
       return state;
   }
-}
+};
 
 export default todosReducer;
