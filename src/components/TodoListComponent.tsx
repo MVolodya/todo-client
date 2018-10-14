@@ -1,20 +1,14 @@
 import * as React from 'react';
-import { Component } from 'react';
-import { ITodos } from 'src/interfaces/ITodos.interfaces';
+import { ITodo } from 'src/interfaces/ITodos.interfaces';
 
-class TodoListComponent extends Component<ITodos>{
+interface IProps extends ITodo {
+  click: any
+};
 
-  public renderTodos() {
-    return this.props.todos.map(i => <li key={i.id}>{i.text}</li>)
-  }
-
-  public render() {
-    return (
-      <ul>
-        { this.renderTodos() }
-      </ul>
-    )
-  }
-}
+const TodoListComponent = (props: IProps) => {
+  return (
+    <li key={props.id}><input type="checkbox" checked={props.done} onChange={props.click} />{props.text}</li>
+  )
+};
 
 export default TodoListComponent;
