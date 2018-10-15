@@ -1,7 +1,7 @@
 export enum ActionTypes {
   ADD_TODO = 'ADD_TODO',
   DONE_TODO = 'DONE_TODO',
-  REMOVE_TODO = 'REMOVE_TODO'
+  DELETE_TODO = 'DELETE_TODO'
 };
 
 let nextID = 3;
@@ -23,6 +23,6 @@ export const doneTodo = (id: number) => ({
 });
 
 export const deleteTodo = (id: number) => ({
-  type: ActionTypes.REMOVE_TODO,
+  type: ActionTypes.DELETE_TODO,
   payload: id
 });
