@@ -21,3 +21,8 @@ export const doneTodo = (id: number) => ({
   type: ActionTypes.DONE_TODO,
   payload: id
 });
+
+export const deleteTodo = (id: number) => ({
+  type: ActionTypes.REMOVE_TODO,
+  payload: id
+});
