@@ -22,21 +22,29 @@ const initState = {
 
 const todosReducer = (state = initState, action: IAction) => {
   switch(action.type) {
-    case ActionTypes.ADD_TODO:
+    case ActionTypes.ADD_TODO: {
       const todo = action.payload.todo
       return {
         ...state,
         todos: [...state.todos, todo]
       }
-    case ActionTypes.DONE_TODO:
+    }
+    case ActionTypes.DONE_TODO: {
       const id = action.payload
       return {
-        ...state, 
+        ...state,
         todos: 
           state.todos.map(i => i.id === id ? { ...i, done: !i.done } : i)
       }
-    default: 
-      return state;
+    }
+    case ActionTypes.DELETE_TODO: {
+      const id = action.payload 
+      return {
+        ...state,
+          todos: state.todos.filter(todo => todo.id !== id)
+      }
+    }
+    default: return state;
   }
 };
 

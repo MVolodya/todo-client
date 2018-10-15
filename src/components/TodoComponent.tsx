@@ -5,7 +5,8 @@ import TodoListComponent from './TodoListComponent';
 
 interface IProps extends ITodos {
   addTodo: (text: string) => void,
-  doneTodo: (id: number) => void
+  doneTodo: (id: number) => void,
+  deleteTodo: (id: number) => void
 };
 
 interface IState {
@@ -32,7 +33,9 @@ class TodoComponent extends Component<IProps, IState> {
       text={i.text}
       done={i.done} 
       // tslint:disable-next-line:jsx-no-lambda
-      onClickBox={ () => this.props.doneTodo(i.id) }
+      onClickDone={ () => this.props.doneTodo(i.id) }
+       // tslint:disable-next-line:jsx-no-lambda
+      onClickDelete= { () => this.props.deleteTodo(i.id) }
       />
     )
   };
