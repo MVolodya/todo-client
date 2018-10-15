@@ -1,15 +1,18 @@
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import ActionTypes from 'src/actions';
-import TodoComponent from "src/components/TodoComponent";
+import { bindActionCreators, Dispatch } from 'redux';
+import TodoComponent from 'src/components/TodoComponent';
 import { ITodos } from '../interfaces/ITodos.interfaces';
+import { addTodo, doneTodo } from './../actions/index';
 
 const mapStateToProps = (state: ITodos) => ({
   todos: state.todos
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  doneTodo: (id: number) => dispatch({type: ActionTypes.DONE_TODO, payload: id})
-});
+const mapDispatchToProps = (dispatch: Dispatch) => {
+ return bindActionCreators({
+   addTodo,
+   doneTodo
+  }, dispatch)
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoComponent);
