@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import ActionTypes from 'src/actions';
+import { ActionTypes } from 'src/actions';
 
 interface IAction extends Action {
   payload: any
@@ -20,17 +20,13 @@ const initState = {
   ]
 };
 
-let nextId = 0;
-
 const todosReducer = (state = initState, action: IAction) => {
   switch(action.type) {
     case ActionTypes.ADD_TODO:
+      const todo = action.payload.todo
       return {
         ...state,
-        todos: [...state.todos, {
-          id: nextId++, // TODO: create id generator
-          text: action.payload
-        }]
+        todos: [...state.todos, todo]
       }
     case ActionTypes.DONE_TODO:
       const id = action.payload
