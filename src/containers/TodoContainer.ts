@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import { bindActionCreators, Dispatch } from 'redux';
 import TodoComponent from 'src/components/TodoComponent';
+import { addTodo, deleteTodo, doneTodo } from '../actions/index';
 import { ITodos } from '../interfaces/ITodos.interfaces';
-import { addTodo, deleteTodo, doneTodo } from './../actions/index';
 
 const mapStateToProps = (state: ITodos) => ({
   todos: state.todos

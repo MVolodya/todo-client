@@ -1,26 +1,16 @@
 import { Action } from 'redux';
 import { ActionTypes } from 'src/actions';
+import { ITodos } from 'src/interfaces/ITodos.interfaces';
 
 interface IAction extends Action {
   payload: any
 };
 
 const initState = {
-  todos: [
-    {
-      id: 0,
-      text: 'Cool 1',
-      done: false,
-    },
-    {
-      id: 1,
-      text: 'Cool 2',
-      done: false,
-    }
-  ]
+  todos: []
 };
 
-const todosReducer = (state = initState, action: IAction) => {
+const todosReducer = (state: ITodos = initState, action: IAction) => {
   switch(action.type) {
     case ActionTypes.ADD_TODO: {
       const todo = action.payload.todo
