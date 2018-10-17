@@ -11,7 +11,8 @@ interface IProps extends ITodos {
 
 interface IState {
   value: string
-}
+};
+
 class TodoComponent extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props)
@@ -26,6 +27,10 @@ class TodoComponent extends Component<IProps, IState> {
   };
 
   public renderTodoList() {
+    if(!this.props.todos.length) {
+      return <div>Add new todo...</div>
+    }
+
    return this.props.todos.map(i =>
     <TodoListComponent
       key={i.id}
@@ -43,8 +48,10 @@ class TodoComponent extends Component<IProps, IState> {
   public render() {
     const { onChangeInput, creteTodo } = this
     return (
-      <div>
+      <span>
+        <h1 className='todo todo__header'>Name of category</h1>
         <input
+          className='todo__input'
           type='text'
           placeholder='name of todo'
           value={ this.state.value }
@@ -53,14 +60,15 @@ class TodoComponent extends Component<IProps, IState> {
         <button onClick={ creteTodo }>new todo</button>
         <h2>Todos:</h2>
         <ul>{ this.renderTodoList() }</ul>
-      </div>
+      </span>
     )
-  }
+  };
 
   private creteTodo() {
-    this.props.addTodo(this.state.value)
+    const value = this.state.value.trim()
+    this.props.addTodo(value)
     this.setState({ value: '' })
-  }
+  };
 
   private updateValue(value: string) {
     this.setState({ value })
