@@ -1,41 +1,67 @@
 import { Action } from 'redux';
 import { ActionTypes } from 'src/actions';
-import { ITodos } from 'src/interfaces/ITodos.interfaces';
+import { ICollections } from 'src/interfaces/ICollection.interfaces';
 
 interface IAction extends Action {
   payload: any
 };
 
 const initState = {
-  todos: []
+  collections: []
 };
 
-const todosReducer = (state: ITodos = initState, action: IAction) => {
+const rootReducer = (state: ICollections = initState, action: IAction) => {
   switch(action.type) {
     case ActionTypes.ADD_TODO: {
+      const id = action.payload.collectionId
       const todo = action.payload.todo
       return {
         ...state,
-        todos: [...state.todos, todo]
+        collections:
+          state.collections.map(i => i.id === id ? { ...i, todos: [...i.todos, todo]} : i)
       }
     }
+
+    // TODO: need to resolve problem with DONE_TODO action
     case ActionTypes.DONE_TODO: {
-      const id = action.payload
+      const collectionId = action.payload.collectionId
+      const todoId = action.payload.todoId
+
       return {
         ...state,
-        todos: 
-          state.todos.map(i => i.id === id ? { ...i, done: !i.done } : i)
+        collections:
+          state.collections.map(
+            i => i.id === collectionId
+            ? { ...i, todos: i.todos.map(
+              t => t.id === todoId
+              ? { ...t, done: !t.done }
+              : t)}
+            : i)
       }
     }
     case ActionTypes.DELETE_TODO: {
-      const id = action.payload 
+      const collectionId = action.payload.collectionId
+      const todoId = action.payload.todoId
       return {
         ...state,
-          todos: state.todos.filter(todo => todo.id !== id)
+        collections:
+          state.collections.map(
+            i => i.id === collectionId
+            ? { ...i, todos: i.todos.filter(
+              t => t.id !== todoId
+              )}
+            : i)
+      }
+    }
+    case ActionTypes.ADD_COLLECTION: {
+      const collection = action.payload.collection
+      return {
+        ...state,
+           collections: [...state.collections, collection]
       }
     }
     default: return state;
   }
 };
 
-export default todosReducer;
+export default rootReducer;

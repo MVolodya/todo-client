@@ -8,9 +8,10 @@ export enum ActionTypes {
 
 let nextId = 0;
 
-export const addTodo = (text: string) => ({
+export const addTodo = (collectionId: number, text: string) => ({
   type: ActionTypes.ADD_TODO,
   payload: {
+    collectionId,
     todo: {
       id: nextId++,
       text,
@@ -19,14 +20,20 @@ export const addTodo = (text: string) => ({
   }
 });
 
-export const doneTodo = (id: number) => ({
+export const doneTodo = (collectionId: number, todoId: number) => ({
   type: ActionTypes.DONE_TODO,
-  payload: id
+  payload: {
+    collectionId,
+    todoId
+  }
 });
 
-export const deleteTodo = (id: number) => ({
+export const deleteTodo = (collectionId: number, todoId: number) => ({
   type: ActionTypes.DELETE_TODO,
-  payload: id
+  payload: {
+    collectionId,
+    todoId
+  }
 });
 
 export const addCollection = (name: string) => ({
@@ -40,15 +47,18 @@ export const addCollection = (name: string) => ({
   }
 });
 
-
-// const Collections = {
-//   coollections: [
-//     {
-//       id
-//       name
-//       todos: [
-//         {}
-//       ]
+// const state = {
+//   collections: [
+//     collection: {
+//       id: nextId++,
+//       name,
+//       todos: [{
+//         todo: {
+//           id: nextId++,
+//           text: 'test text',
+//           done: false
+//         }
+//       }]
 //     }
 //   ]
 // }

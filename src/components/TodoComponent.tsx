@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { Component } from 'react';
-import { ITodos } from 'src/interfaces/ITodos.interfaces';
+import { ICollection } from 'src/interfaces/ICollection.interfaces';
 import TodoListComponent from './TodoListComponent';
 
-interface IProps extends ITodos {
-  addTodo: (text: string) => void,
-  doneTodo: (id: number) => void,
-  deleteTodo: (id: number) => void
+interface IProps extends ICollection {
+  addTodo: (collectionId: number, text: string) => void,
+  doneTodo: (collectionId: number, todoId: number) => void,
+  deleteTodo: (collectionId: number, todoId: number) => void,
+  collection: ICollection
 };
 
 interface IState {
@@ -27,20 +28,21 @@ class TodoComponent extends Component<IProps, IState> {
   };
 
   public renderTodoList() {
-    if(!this.props.todos.length) {
+    const { collection } = this.props
+    if(!collection.todos.length) {
       return <div>Add new todo...</div>
     }
 
-   return this.props.todos.map(i =>
+   return collection.todos.map(i =>
     <TodoListComponent
       key={i.id}
       id={i.id}
       text={i.text}
       done={i.done} 
       // tslint:disable-next-line:jsx-no-lambda
-      onClickDone={ () => this.props.doneTodo(i.id) }
+      onClickDone={ () => this.props.doneTodo(collection.id, i.id) }
        // tslint:disable-next-line:jsx-no-lambda
-      onClickDelete= { () => this.props.deleteTodo(i.id) }
+      onClickDelete= { () => this.props.deleteTodo(collection.id, i.id) }
       />
     )
   };
@@ -49,7 +51,7 @@ class TodoComponent extends Component<IProps, IState> {
     const { onChangeInput, creteTodo } = this
     return (
       <span>
-        <h1 className='todo todo__header'>Name of category</h1>
+        <h1 className='todo todo__header'>{this.props.collection.name}</h1>
         <input
           className='todo__input'
           type='text'
@@ -66,7 +68,7 @@ class TodoComponent extends Component<IProps, IState> {
 
   private creteTodo() {
     const value = this.state.value.trim()
-    this.props.addTodo(value)
+    this.props.addTodo(this.props.collection.id, value)
     this.setState({ value: '' })
   };
 
@@ -77,6 +79,8 @@ class TodoComponent extends Component<IProps, IState> {
   private onChangeInput(e: any) {
     this.updateValue(e.target.value)
   };
+
+  // private checkName()
 
 };
 
